@@ -13,7 +13,7 @@ class RegisterProvider extends ChangeNotifier {
   }
 
   Future<bool> registrarUsuario(Map<String, String> formData) async {
-    var url = Uri.parse('${endpoint}accounts:signUp?key=AIzaSyCovgZ8JoKP9wmKBFQzO6g3OuitSvaTj84');
+    var url = Uri.parse('${endpoint}accounts:signUp?key=AIzaSyCypczv1dQwnk50LwiKaBaEZnSj9Nry6Ek');
 
     var response = await http.post(url, body: jsonEncode(formData));
     if (response.statusCode == 200) {
@@ -21,7 +21,7 @@ class RegisterProvider extends ChangeNotifier {
       // ignore: avoid_print
       print(usuario.localId);
       var urlDb = Uri.parse(
-          'https://bootcamp-6fd74-default-rtdb.firebaseio.com/users/${usuario.localId!}.json');
+          'https://job-service-9ba62-default-rtdb.firebaseio.com/users/${usuario.localId!}.json');
       var responseDb = await http.put(urlDb,
           body: jsonEncode(
               {'name': formData['name'], 'lastname': formData['lastname']}));
