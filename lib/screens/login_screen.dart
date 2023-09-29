@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:job_service/widgets/rounded_button.dart';
-import 'package:job_service/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../providers/providers.dart';
 import '../widgets/widgets.dart';
@@ -18,6 +17,29 @@ class _LoginScreenState extends State<LoginScreen> {
   Map<String, String> formData = {'email': '', 'password': ''};
   LoginProvider loginProvider = LoginProvider();
   UserProvider userProvider = UserProvider();
+  bool checkSaveData = false;
+  SharedPreferences? pref;
+  // controllers
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    loadSharedPreferences();
+    super.initState();
+  }
+
+  loadSharedPreferences() async {
+    pref = await SharedPreferences.getInstance();
+
+    if (pref != null) {
+      emailController.text = pref!.getString("email").toString();
+      passwordController.text = pref!.getString("password").toString();
+      formData['email'] = emailController.text;
+      formData['password'] = passwordController.text;
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               RoundedInputField(
                 'email',
                 'Correo electronico',
+                controller: emailController,
                 formData: formData,
                 icon: Icons.email_outlined,
                 validator: (value) {
@@ -54,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
               RoundedInputField(
                 'password',
                 'Contraseña',
+                controller: passwordController,
                 formData: formData,
                 icon: Icons.key_outlined,
                 obscureText: true,
@@ -64,15 +88,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   return null;
                 },
               ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                width: size.width * 0.8,
+                child: CheckboxListTile(
+                    value: checkSaveData,
+                    title: const Text('Desea guardar sus datos'),
+                    onChanged: (value) {
+                      setState(() {
+                        checkSaveData = value!;
+                      });
+                    }),
+              ),
               RoundedButton('Ingresar', press: formLogin),
               TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, 'register');
                   },
-                  child: const Text(
-                    'Registrar nueva cuenta',
-                    // style: TextStyle(color: Colors.white),
-                  )),
+                  child: const Text('Registrar nueva cuenta'
+                      // style: TextStyle(color: Colors.white),
+                      )),
               const SizedBox(height: 35),
             ],
           ),
@@ -86,15 +123,13 @@ class _LoginScreenState extends State<LoginScreen> {
       var usuario = await loginProvider.loginUsuario(formData);
       if (usuario != null) {
         userProvider.setUser(usuario);
+
+        if (checkSaveData && pref != null) {
+          pref!.setString("email", usuario.email!);
+          pref!.setString("password", formData['password']!);
+        }
         // ignore: use_build_context_synchronously
-        AppDialogs.showDialog2(context, 'Usuario Autenticado!', [
-          TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushReplacementNamed(context, 'home');
-              },
-              child: const Text('Ok'))
-        ]);
+        Navigator.popAndPushNamed(context, 'home');
       } else {
         // ignore: use_build_context_synchronously
         AppDialogs.showDialog1(context, 'No se pudo iniciar sesion.');

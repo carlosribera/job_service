@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:job_service/widgets/rounded_button.dart';
-import 'package:job_service/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/providers.dart';

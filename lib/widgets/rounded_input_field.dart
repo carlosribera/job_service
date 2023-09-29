@@ -6,6 +6,7 @@ class RoundedInputField extends StatelessWidget {
   final IconData? icon;
   final bool obscureText;
   final String? Function(String?)? validator;
+  final TextEditingController? controller;
 
   const RoundedInputField(
     this.name,
@@ -14,6 +15,7 @@ class RoundedInputField extends StatelessWidget {
     this.icon,
     this.validator,
     this.obscureText = false,
+    this.controller,
     required this.formData,
   });
 
@@ -34,6 +36,7 @@ class RoundedInputField extends StatelessWidget {
         borderRadius: BorderRadius.circular(29)
       ),
       child: TextFormField(
+        controller: controller,
         onChanged: (value) {
           formData[name] = value;
         },

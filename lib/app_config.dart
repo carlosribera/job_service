@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_service/screens/config_screen.dart';
 
 import 'screens/screens.dart';
 
@@ -10,6 +11,10 @@ class AppConfig{
       'login':(context) =>const LoginScreen(),
       'register':(context) =>const RegisterScreen(),
       'home':(context) =>const HomeScreen(),
+      'profile':(context) =>const ProfileScreen(),
+      'mapa':(context) =>const MapaScreen(),
+      'config':(context) =>const ConfiguracionesScreen(),
+      'acerca':(context) =>const AcercaScreen(),
     };
   }
 }
