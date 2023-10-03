@@ -15,7 +15,7 @@ class AppTitle extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(
           color: colors.primary,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w400,
           fontSize: 32,
         ));
   }

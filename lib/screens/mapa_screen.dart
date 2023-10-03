@@ -36,35 +36,35 @@ class _MapaScreenState extends State<MapaScreen> {
   }
 
   configLocation() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
         return;
       }
     }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
 
     location.enableBackgroundMode(enable: true);
 
-    _locationData = await location.getLocation();
-    latitude = _locationData.latitude;
-    longitude = _locationData.longitude;
+    locationData = await location.getLocation();
+    latitude = locationData.latitude;
+    longitude = locationData.longitude;
 
     listen = location.onLocationChanged.listen((LocationData currentLocation) {
-      latitude = _locationData.latitude;
-      longitude = _locationData.longitude;
+      latitude = locationData.latitude;
+      longitude = locationData.longitude;
       if (userProvider != null) {
         userProvider!.setUserLocation(latitude!, longitude!);
       }

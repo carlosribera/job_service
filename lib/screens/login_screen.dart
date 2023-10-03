@@ -43,77 +43,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final colors = Theme.of(context).colorScheme;
-    Size size = MediaQuery.of(context).size;
 
     loginProvider = Provider.of<LoginProvider>(context);
     userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        // color: colors.primary,
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const AppTitle('Iniciar Sesion'),
-              SizedBox(height: size.height * 0.03),
-              const SizedBox(height: 25),
-              RoundedInputField(
-                'email',
-                'Correo electronico',
-                controller: emailController,
-                formData: formData,
-                icon: Icons.email_outlined,
-                validator: (value) {
-                  if (value!.length < 3) {
-                    return 'Correo electronico no valida.';
-                  }
-                  return null;
-                },
-              ),
-              RoundedInputField(
-                'password',
-                'Contraseña',
-                controller: passwordController,
-                formData: formData,
-                icon: Icons.key_outlined,
-                obscureText: true,
-                validator: (value) {
-                  if (value!.length < 3) {
-                    return 'Contraseña no valida.';
-                  }
-                  return null;
-                },
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                width: size.width * 0.8,
-                child: CheckboxListTile(
-                    value: checkSaveData,
-                    title: const Text('Desea guardar sus datos'),
-                    onChanged: (value) {
-                      setState(() {
-                        checkSaveData = value!;
-                      });
-                    }),
-              ),
-              RoundedButton('Ingresar', press: formLogin),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'register');
-                  },
-                  child: const Text('Registrar nueva cuenta'
-                      // style: TextStyle(color: Colors.white),
-                      )),
-              const SizedBox(height: 35),
-            ],
-          ),
-        ),
+      body: Stack(
+        children: [
+          _crearFondo(context),
+          _loginForm(context),
+        
+        ],
       ),
     );
   }
@@ -137,5 +77,132 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       AppDialogs.showDialog1(context, 'No se ha podido validar');
     }
+  }
+
+  Widget _crearFondo(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final fondoRojo = Container(
+      height: size.height * 0.4,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(colors: <Color>[
+        Color.fromRGBO(207, 1, 52, 1.0),
+        Color.fromRGBO(207, 5, 52, 1.0),
+      ])),
+    );
+
+    final circulo = Container(
+      width: 100.0,
+      height: 100.0,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          color: const Color.fromRGBO(255, 255, 255, 0.05)),
+    );
+
+    return Stack(
+      children: [
+        fondoRojo,
+        Positioned(top: 90.0, left: 30.0, child: circulo),
+        Positioned(top: -40.0, left: -30.0, child: circulo),
+        Positioned(bottom: -50.0, right: -10.0, child: circulo),
+        Positioned(bottom: 120.0, right: 20.0, child: circulo),
+        Container(
+          padding: const EdgeInsets.only(top: 90.0),
+          child: const Column(
+            children: [
+              Icon(
+                Icons.person_pin_circle,
+                color: Colors.white,
+                size: 100.0,
+              ),
+              SizedBox(
+                height: 10.0,
+                width: double.infinity,
+              ),
+              Text(
+                'Job Service',
+                style: TextStyle(color: Colors.white, fontSize: 25.0),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _loginForm(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return SingleChildScrollView(
+      child: Column(children: [
+        SafeArea(
+            child: Container(
+          height: 180.0,
+        )),
+        const SizedBox(
+          height: 20.0,
+        ),
+        Container(
+          width: size.width * 0.85,
+          margin: const EdgeInsets.symmetric(vertical: 30.0),
+          padding: const EdgeInsets.symmetric(vertical: 50.0),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5.0),
+              boxShadow: const <BoxShadow>[
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 3.0,
+                  offset: Offset(0.0, 0.5),
+                  spreadRadius: 3.0,
+                )
+              ]),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                const AppTitle('Iniciar Sesion'),
+                const SizedBox(height: 40.0),
+                RoundedInputField(
+                  'email',
+                  'Correo electronico',
+                  controller: emailController,
+                  formData: formData,
+                  icon: Icons.alternate_email,
+                  validator: (value) {
+                    if (value!.length < 3) {
+                      return 'Correo electronico no valida.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 30.0),
+                RoundedInputField(
+                  'password',
+                  'Contraseña',
+                  controller: passwordController,
+                  formData: formData,
+                  icon: Icons.lock,
+                  obscureText: true,
+                  validator: (value) {
+                    if (value!.length < 3) {
+                      return 'Contraseña no valida.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 30.0),
+                RoundedButton('Ingresar', press: formLogin),
+                TextButton(onPressed: () {
+                  Navigator.pushNamed(context, 'register');
+                }, child: const Text('Registrar nueva cuenta'))
+              ],
+            ),
+          ),
+        ),
+        const Text('¿Olvido su contraseña?'),
+        const SizedBox(height: 100.0,)
+      ]),
+    );
   }
 }

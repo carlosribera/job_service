@@ -69,14 +69,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                   child: userProvider.user.image == ""
                       ? const Image(image: AssetImage('assets/profile.png'))
-                      : ClipOval(
-                          child: Image.memory(
-                            base64Decode(formData['image']!),
-                            fit: BoxFit.cover,
-                            height: 400,
-                            width: 400,
+                      : CircleAvatar(
+                        radius: 100,
+                        child: ClipOval(
+                            child: Image.memory(
+                              base64Decode(formData['image']!),
+                              fit: BoxFit.cover,
+                              height: 200,
+                              width: 200,
+                            ),
                           ),
-                        ),
+                      ),
+                      
+
                 ),
                 RoundedInputField(
                   'name',

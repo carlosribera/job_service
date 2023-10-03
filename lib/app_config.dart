@@ -23,6 +23,7 @@ class AppConfig{
 const Color _customColor = Color(0x00e23722);
 const List<Color> _colorThemes = [
   _customColor,
+  Colors.red,
   Colors.blue,
   Colors.teal,
   Colors.green,

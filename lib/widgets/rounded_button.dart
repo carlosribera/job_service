@@ -5,8 +5,7 @@ class RoundedButton extends StatelessWidget {
   final VoidCallback press;
   final Color textColor;
   const RoundedButton(
-    this.text,
-    {
+    this.text, {
     required this.press,
     this.textColor = Colors.white,
     super.key,
@@ -17,27 +16,22 @@ class RoundedButton extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       width: size.width * 0.8,
-      child: ClipRRect(
-        borderRadius:BorderRadius.circular(29),
-        // child: FlatButton(
-        child: TextButton(
+      child: TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: colors.primary,
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-          ),
+              backgroundColor: colors.primary,
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)))),
           onPressed: press,
           child: Text(
             text,
             style: TextStyle(
               color: textColor,
               fontSize: 16.0,
-              fontWeight: FontWeight.bold,
             ),
-          )
-        ),
-      ),
+          )),
     );
   }
 }

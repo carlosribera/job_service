@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'providers/providers.dart';
 
+// void main() => runApp(const AppState());
 void main() => runApp(const AppState());
 
 class AppState extends StatelessWidget {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme(selectedColor: 0).theme(),
+      theme: AppTheme(selectedColor: 1).theme(),
       initialRoute: AppConfig.initialRoute,
       routes: AppConfig.routes(),
     );

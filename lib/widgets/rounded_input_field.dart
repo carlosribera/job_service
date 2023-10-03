@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class RoundedInputField extends StatelessWidget {
   final String name;
   final String label;
+  final String? hint;
   final IconData? icon;
   final bool obscureText;
   final String? Function(String?)? validator;
@@ -11,7 +12,8 @@ class RoundedInputField extends StatelessWidget {
   const RoundedInputField(
     this.name,
     this.label, {
-    super.key,
+    super.key, 
+    this.hint,
     this.icon,
     this.validator,
     this.obscureText = false,
@@ -27,7 +29,6 @@ class RoundedInputField extends StatelessWidget {
     
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       width: size.width * 0.8,
 
@@ -44,8 +45,8 @@ class RoundedInputField extends StatelessWidget {
         validator: validator,
         decoration: InputDecoration(
           icon: Icon(icon, color: colors.primary),
-          hintText: label,
-          border: InputBorder.none,
+          hintText: hint,
+          labelText: label,
         ),
       ),
     );

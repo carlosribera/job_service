@@ -10,8 +10,8 @@ class UserProvider extends ChangeNotifier {
   String endpoint = 'https://identitytoolkit.googleapis.com/v1/';
   User user = User();
 
-  setUser(User _user) {
-    user = _user;
+  setUser(User user) {
+    user = user;
     notifyListeners();
   }
 
